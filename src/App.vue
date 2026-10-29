@@ -1,11 +1,24 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import DefaultLayout from '@/layouts/DefaultLayout.vue'
+import AuthLayout from '@/layouts/AuthLayout.vue'
+
+const route = useRoute()
+
+// Динамічний вибір макету на основі meta.layout з роутера
+const layout = computed(() => {
+  return route.meta.layout === 'AuthLayout' ? AuthLayout : DefaultLayout
+})
+</script>
 
 <template>
-  <h1>You did it!</h1>
-  <p>
-    Visit <a href="https://vuejs.org/" target="_blank" rel="noopener">vuejs.org</a> to read the
-    documentation
-  </p>
+  <component :is="layout">
+    <RouterView />
+  </component>
 </template>
 
-<style scoped></style>
+<style>
+/* Глобальні стилі */
+body { margin: 0; font-family: Arial, sans-serif; }
+</style>
